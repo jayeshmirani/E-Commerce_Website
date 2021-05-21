@@ -1,0 +1,26 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    {% if listings %}
+        <h2>Your Watchlist</h2>
+        {% for listing in listings %}
+            {% if listing.bid_open %}
+                <div class="media" style="margin-top: 20px">
+                    <div class="media-left">
+                        <img src="{{ listing.image_url }}" class="media-object" style="width:200px; margin-right: 200px" alt="{{ listing.title }}">
+                    </div>
+                    <a style="color:black" href="{% url 'listing' listing.id %}">
+                        <div class="media-body">
+                            <h3 class="media-heading">{{ listing.title }}</h3>
+                            <p>{{ listing.description | linebreaks }}</p>
+                        </div>
+                    </a>
+                </div>
+            {% else %}
+                <div style= "color: red"> Sorry! the item {{ listing.title }} is no longer available for bidding. Click <a href="{% url 'listing' listing.id %}">Here</a> to view the details</div>
+            {% endif %}
+        {% endfor %}
+    {% else %}
+        <div>You haven't added anything to your Watchlist!</div>
+    {% endif %}
+{% endblock %}

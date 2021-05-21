@@ -1,0 +1,28 @@
+{% extends "auctions/layout.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block body %}
+    <div class="container">
+        <div>
+            {% if message %}
+                <div class="row">
+                    <div class="col-xs-3 mx-auto">
+                        <div style="color: red;">{{ message }}</div>
+                    </div>
+                </div>
+                <br>
+            {% endif %}
+        </div>
+        <div class="row">
+            <div class="col-6 mx-auto">
+                <form action="{% url 'create_listing' %}" method="POST">
+                    {% csrf_token %}
+                    {{ newlisting_form | crispy }}
+                    <input class="btn btn-primary" type="submit" value="Create New Listing">
+                </form>
+            </div>
+        </div>
+    </div>
+    
+{% endblock %}

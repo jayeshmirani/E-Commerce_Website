@@ -1,0 +1,31 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <div>
+        {% if message %}
+            <div style="color: green;">{{ message }}</div>
+        {% endif %}
+        <br>
+    </div>
+    <div>
+        {% if not categories %}
+            <h6>No Categories added.</h6>
+        {% else %}
+               <h5>Choose products by Categories:</h5>
+                <ol>
+                    {% for category in categories %}
+                        <li>
+                            <a href="{% url 'category_items' category.category_name %}" style="text-decoration: none;" >
+                                <h6>{{ category.category_name }}</h6>
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ol>
+        {% endif %}
+        <br>
+        <a href="{% url 'new_category' %}" style="text-decoration: none;">
+            <h6>Add a new category</h6>
+        </a>
+    </div>
+    
+{% endblock %}

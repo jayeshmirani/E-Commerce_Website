@@ -1,0 +1,15 @@
+body {
+    padding: 10px;
+}
+
+.product-card {
+    width: 250px;
+    align-items: center;
+    padding-top: 20px;
+    margin: 20px auto;
+}
+
+.product-row {
+    margin: 0 15px;
+    align-items: center;
+}

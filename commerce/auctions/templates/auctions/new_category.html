@@ -1,0 +1,32 @@
+{% extends "auctions/layout.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block body %}
+    <div>
+        {% if message %}
+            <div class="row">
+                <div class="col-xs-3 mx-auto">
+                    <div style="color: red;">{{ message }}</div>
+                </div>
+            </div>
+            <br>
+        {% endif %}
+    </div>
+    
+    <form action="{% url 'new_category' %}" method="POST">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-xs-3 mx-auto">
+                {{ new_cat_form.name | as_crispy_field }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-3 mx-auto">
+                <input class="btn btn-primary" type="submit" value="Create New Category">
+            </div>
+        </div>
+
+    </form>
+{% endblock %}

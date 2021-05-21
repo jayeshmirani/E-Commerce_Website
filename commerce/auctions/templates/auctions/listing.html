@@ -1,0 +1,85 @@
+{% extends "auctions/layout.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block body %}
+    <div class="container-fluid">
+        <div>
+            <img src="{{ listing.image_url }}" style="width:250px ; margin-left:30px" alt="{{ listing.title }}">
+        </div>
+        <br>
+        
+        <div>
+            <h3 class="media-heading">{{ listing.title }}</h3>
+            {% if listing.bid_open %}
+                <h4 class="media-heading">Current Price: ${{ bid.current_bid }}</h4>
+            {% endif %}
+            <p>{{ listing.description | linebreaks }}</p>
+            {% if in_watchlist %}
+                <div style="color:rgb(97, 110, 97)">This Item is Added to your Watchlist.</div>
+                <div><a href="{% url 'edit_watchlist' listing.id %}">Click Here</a> to remove this item from your watchlist.</div>
+            {% else %}
+                <div><a href="{% url 'edit_watchlist' listing.id %}">Click Here</a> to Add this item to your Watchlist</div>
+            {% endif %}
+            <hr>
+            <h4>Bidding:</h4>
+            {% if request.user.username == listing.username %}
+                {% if listing.bid_open %}
+                    <div>
+                        <a href="{% url 'close_bidding' listing.id %}">
+                            <input class="btn btn-primary" type="submit" value="Close this Auction">
+                        </a>
+                    </div>
+                {% else %}
+                    {% if bid.bid_count == 1 %}
+                        <div style="color:red">Sorry, no one bidded for this product.</div>
+                    {% else %}
+                        <div style="color:green">Congratulations, {{ bid.highest_bidder }} brought your product for ${{ bid.current_bid }}</div>
+                    {% endif %}
+                {% endif %}            
+            {% else %}
+                {% if listing.bid_open %}
+                    <div>
+                        {% if bid_message %}
+                            <div style="color: blue;">{{ bid_message }}</div>
+                        {% endif %}    
+                        <form action="{% url 'listing' listing.id %}" method="POST">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-xs-2">
+                                    {{ new_bid.bid | as_crispy_field }}
+                                </div>
+                            </div>
+                            
+                            <input class="btn btn-primary" type="submit" value="Place Bid">
+                        </form>
+                    </div>
+                    <hr>
+                    <h4>Details:</h4>
+                    <div>Listed by: {{ listing.username }}</div>
+                    <div>Category: {{ listing.category }}</div>
+                {% else %}
+                    {% if request.user.username == bid.highest_bidder %}
+                        <div style="color:green">Congratulations, you brought this product at a bid of ${{ bid.current_bid }}</div>
+                    {% else %}
+                        <div style="color:red"> Sorry! This product has been closed for bidding. </div>
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+        </div>
+        <hr>
+        <div>
+            <h4>Comments:</h4>
+            {% for c in comments %}
+                <h6>{{c.username}}</h6>
+                {{c.comment}}
+                <hr>
+            {% empty %}
+                No comments. Be the first one to add a comment!
+            {% endfor %} 
+            <div><a href="{% url 'add_comment' listing.id %}">Click Here</a> to add a comment.</div>
+            <hr>
+        </div>
+    </div>
+    
+{% endblock %}
