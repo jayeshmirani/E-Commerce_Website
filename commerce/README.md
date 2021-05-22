@@ -13,3 +13,8 @@ An e-commerce auction site that will allow users to
 
 # Live Preview
 [E-commerce Website](https://ecommerce-auctions-app.herokuapp.com/)
+
+# Technologies Used:
+
+- Django
+- PostgreSQL Database 
