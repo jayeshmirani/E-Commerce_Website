@@ -1,5 +1,5 @@
 # E-Commerce_Website
-An e-commerce auction website that will allow users to 
+An e-commerce auction website that allows users to 
 
 *User not logged in*
 - See all the active listings currently available for bidding.
